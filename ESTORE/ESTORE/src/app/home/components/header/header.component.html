@@ -1,0 +1,61 @@
+<div class="header bg-dark">
+    <div class="row">
+        <div class="brand my-1">
+            <h1>estore</h1>
+        </div>
+        
+            <div class="p-0 my-4 w-50 h-25 bg-white">
+                <ng-container *ngIf="displaySearchBar">
+                <select #categoryOptions class="dropdown p-0 m-0" title="Category">
+                    <!-- <option value="Men">Men</option>
+                    <option value="Women">Women</option>
+                    <option value="Kids">Kids</option> -->
+                    <option *ngFor="let category of categoryStore.topLevelCategories$ |async" [value]="category.ID">{{category.CATEGORY}}</option>
+                </select>
+                <input #searchKeywords type="search" class="form-control search-box" placeholder="Search..."/>
+                <button title ="search-btn"class="search-button" (click)="onSearchClick(searchKeywords.value,categoryOptions.value)"><fa-icon [icon]="faSearch"></fa-icon></button>
+            </ng-container>
+
+            </div>
+
+        <div class="login-container p-0" *ngIf="!isUserAuthenticated">
+            <fa-icon class="user-icon" [icon]="faUserCircle"></fa-icon>
+            <h5><a routerLink="login">Sign in / Join</a></h5>
+        </div>
+        <div class="user-container p-0" *ngIf="isUserAuthenticated" style="color: white;display: inline-block;width: 15%;text-align: right;margin: 1.7em 0.2em 0 0;">
+            <div class="dropdown user-dropdown">
+                <button class="btn btn-secondary dropdown-toggle user-dropdown-button"
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                >
+                <fa-icon class="user-icon" [icon]="faUserCircle"></fa-icon>
+                Hi {{userName}}
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" (click)="pastOrders()">Past Orders</a></li>
+                    <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="cart-wishlist p-0 list-item">
+            <!-- <ul class="p-0">
+                <li class="list-item">
+                    <fa-icon [icon]="faHeart"></fa-icon>
+                </li>
+                <li class="list-item">
+                    <fa-icon [icon]="faShoppingCart"></fa-icon>
+                </li>
+            </ul> -->
+
+            <button type="button" class="btn btn-dark positon-relative" (click)="navigateToCart()">
+                <fa-icon [icon]="faShoppingCart"></fa-icon>
+                <ng-container *ngIf="cartStore.cart$|async as cart">
+                    <span *ngIf="cart.totalProduct>0" class="position-relative totalProduct start-100 translate-middle badge rounded-pill bg-warning text-dark">
+                        {{cart.totalProduct}}
+                    </span>
+                </ng-container>
+            </button>
+        </div>
+    </div>
+</div>

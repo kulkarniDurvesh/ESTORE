@@ -1,0 +1,30 @@
+<div class="main-product-container">
+    <ng-container *ngIf=" (productStoreItem.products$ | async)?.length ; else noProducts">
+        <div *ngFor="let product of productStoreItem.products$ | async" class="mx-5 p-3 product-card">
+            <div class="product-image-container">
+                <a routerLink="../productas/{{product.ID}}">
+                <img [src]="'../../../../assets/images/'+product.PRODUCT_IMG+'.jpeg'" alt={{product.PRODUCT_NAME}}>
+                </a>
+            </div>
+            <div class="product-info">
+                <h5><a routerLink="../productas/{{product.ID}}">{{product.PRODUCT_NAME}}</a></h5>
+                <p class="product-price">{{product.PRICE| currency}}</p>
+                <p><app-ratings [score]="product.ratings"></app-ratings></p>
+            </div>
+            <div class="my-2 btn btn-warning cart-button" (click)="addToCart(product)">
+                <div class="cart-img-container">
+                    <fa-icon [icon]="faShoppingCart"></fa-icon>
+                </div>
+                <div class="cart-text-container">
+                    <p>Add to cart</p>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+    <ng-template #noProducts>
+        <div class="">
+            <img src="../../../../assets/images/productNotFound.jpeg" alt="">
+            <p>Oops No Such Product available currently</p>
+        </div>
+    </ng-template>
+</div>
